@@ -134,7 +134,7 @@ router.post('/lol/location/add', function(req, res) {
 		travelId: req.body.travelId,
 		lat: req.body.lat,
 		lng: req.body.lng,
-		address: String
+		address: req.body.address
 	})
 
 	location.save(function(err) {
@@ -152,5 +152,18 @@ router.post('/lol/location/get', function(req, res) {
 	});
 });
 
+router.post('/lol/location/getlist', function(req, res){
+	console.log(req.body.travelId);
+	
+	Location.find({travelId:req.body.travelId})
+	.exec(function(err, locationList){
+		if(err) {return res.json({result:500, data: err})}
+		if(locationList) {
+			res.json({result:0, data: locationList});
+		} else {
+			res.json({result:100, msg:'data do not exist'});
+		}
+	})
+})
 
 module.exports = router;
