@@ -59,7 +59,8 @@ var locationSchema = new Schema({
 	},
 	created: {type: Date, default: Date.now},
 	lat: Number,
-	lng: Number
+	lng: Number,
+	address: String
 }, {collection: 'location'});
 
 exports.Location = db.model('location', locationSchema);

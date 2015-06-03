@@ -1,7 +1,7 @@
 var Lol =require('../../models/lol');
 var router = require('express').Router();
 
-//¸ðµ¨Á¤ÀÇ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 var Survey = Lol.Survey;
 var Travel = Lol.Travel;
 var Location = Lol.Location;
@@ -79,19 +79,19 @@ router.post('/lol/travel/update', function(req, res) {
 		update.origin = {
 			lat: req.body.origin.lat,
 			lng: req.body.origin.lng,
-			//address: req.body.origin.address
+			address: req.body.origin.address
 		}
 	}
 	if(req.body.destination) {
 		update.destination = {
 			lat: req.body.destination.lat,
 			lng: req.body.destination.lng,
-			//address: req.body.destination.address
+			address: req.body.destination.address
 		}
 	}
 
 	//update
-	Travel.update({userId: req.body.id},
+	Travel.update({_id: req.body.id},
 		update,
 		{upsert: false})
 	.exec(function(err, travel) {
@@ -113,13 +113,28 @@ router.post('/lol/travel/get', function(req, res) {
 	});
 });
 
+router.post('/lol/travel/getlist', function(req, res){
+	console.log(req.body.userId);
+	
+	Travel.find({userId:req.body.userId})
+	.exec(function(err, travelList){
+		if(err) {return res.json({result:500, data: err})}
+		if(travelList) {
+			res.json({result:0, data: travelList});
+		} else {
+			res.json({result:100, msg:'data do not exist'});
+		}
+	})
+})
+
 router.post('/lol/location/add', function(req, res) {
 	console.log(req.body.travelId);
 
 	var location = new Location({
 		travelId: req.body.travelId,
 		lat: req.body.lat,
-		lng: req.body.lng
+		lng: req.body.lng,
+		address: String
 	})
 
 	location.save(function(err) {
@@ -136,5 +151,6 @@ router.post('/lol/location/get', function(req, res) {
 		res.json({result:0, data:success});
 	});
 });
+
 
 module.exports = router;
