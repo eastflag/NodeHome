@@ -5,6 +5,6 @@ router.use(require('./comment'));
 router.use(require('./noboard'));
 router.use(require('./posts'));
 router.use(require('./user'));
-router.use(require('./lol'));
+router.use('/lol/', require('./lol'));
 
 module.exports = router

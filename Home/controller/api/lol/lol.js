@@ -1,12 +1,26 @@
-var Lol =require('../../models/lol');
+var Lol =require('../../../models/lol');
+var Board =require('../../../models/boards');
 var router = require('express').Router();
 
-//������
+//모델 정의
+var User = Board.User;
 var Survey = Lol.Survey;
 var Travel = Lol.Travel;
 var Location = Lol.Location;
 
-router.post('/lol/survey/add', function(req, res) {
+//카카오톡 oauth 인증
+router.get('/kakao/oauth', function(req, res) {
+	var url = require('url');
+	var url_parts = url.parse(req.url, true);
+	console.log('url:' + req.url); // /kakao/oauth?code=xxx
+	var query = url_parts.query;
+	console.log('query:' + query);
+	var code = query.code;
+	console.log('code:' + code);
+	res.json({code: code});
+});
+
+router.post('/survey/add', function(req, res) {
 	console.log(req.body.id);
 
 	var update = {
@@ -35,7 +49,7 @@ router.post('/lol/survey/add', function(req, res) {
 	});
 });
 
-router.post('/lol/survey/get', function(req, res) {
+router.post('/survey/get', function(req, res) {
 	Survey.findOne({userId: req.body.id})
 	.exec(function(err, survey) {
 		if(err) {return res.json({result:500, data: err})}
@@ -48,7 +62,7 @@ router.post('/lol/survey/get', function(req, res) {
 });
 
 //first insert
-router.post('/lol/travel/add', function(req, res) {
+router.post('/travel/add', function(req, res) {
 	console.log(req.body.id);
 
 	//insert
@@ -64,7 +78,7 @@ router.post('/lol/travel/add', function(req, res) {
 	});
 });
 
-router.post('/lol/travel/update', function(req, res) {
+router.post('/travel/update', function(req, res) {
 	console.log(req.body.id);
 
 	var update = {};
@@ -99,7 +113,7 @@ router.post('/lol/travel/update', function(req, res) {
 	});
 });
 
-router.post('/lol/travel/get', function(req, res) {
+router.post('/travel/get', function(req, res) {
 	console.log(req.body.travelId);
 
 	Travel.findOne({_id: req.body.travelId})
@@ -113,7 +127,7 @@ router.post('/lol/travel/get', function(req, res) {
 	});
 });
 
-router.post('/lol/travel/getlist', function(req, res){
+router.post('/travel/getlist', function(req, res){
 	console.log(req.body.userId);
 	
 	Travel.find({userId:req.body.userId})
@@ -127,7 +141,7 @@ router.post('/lol/travel/getlist', function(req, res){
 	})
 })
 
-router.post('/lol/location/add', function(req, res) {
+router.post('/location/add', function(req, res) {
 	console.log(req.body.travelId);
 
 	var location = new Location({
@@ -143,7 +157,7 @@ router.post('/lol/location/add', function(req, res) {
 	});
 });
 
-router.post('/lol/location/get', function(req, res) {
+router.post('/location/get', function(req, res) {
 	console.log(req.body.travelId);
 	
 	Location.find({travelId: req.body.travelId}, function (err, success) {
@@ -152,7 +166,7 @@ router.post('/lol/location/get', function(req, res) {
 	});
 });
 
-router.post('/lol/location/getlist', function(req, res){
+router.post('/location/getlist', function(req, res){
 	console.log(req.body.travelId);
 	
 	Location.find({travelId:req.body.travelId})
@@ -164,6 +178,29 @@ router.post('/lol/location/getlist', function(req, res){
 			res.json({result:100, msg:'data do not exist'});
 		}
 	})
+})
+
+router.post('/point/getMyPoint', function(req, res){
+	Travel.find(
+	    {userId:req.body.userId}
+	)
+	.count(function (err, count) {
+		if (err) return res.json({result:100, msg:err});
+		res.json({result:0, data: {count:count}});
+	});
+})
+
+router.post('/point/getRankingList', function(req, res){
+	Travel.aggregate(
+  	    { $group: { _id: '$userId', count: { $sum: 1}}}, 
+  	    { $sort: {"count": -1}},
+  		function (err, data) {
+  		   	if (err) return res.json({result:100, msg:err});
+  		    User.populate( data, { "path": "_id" }, function(err,datas) {
+  		    	res.json({result:0, data:datas});
+  		    });
+  	    }
+  	);
 })
 
 module.exports = router;
