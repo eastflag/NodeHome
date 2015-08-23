@@ -20,6 +20,23 @@ router.get('/kakao/oauth', function(req, res) {
 	res.json({code: code});
 });
 
+//LoLTravel 신규 사용자 등록
+router.post('/user/add', function(req, res) {
+	console.log('/api/lol/user/add:' + req.body.id);
+	var user = {
+		email: req.body.email,
+		name: req.body.name
+	};
+	
+	//insert or update
+	User.update({_id: req.body.id},
+		user,
+		{upsert: true})
+	.exec(function(err, data){
+		res.json({result:0, msg: 'success'});
+	});
+});
+
 router.post('/survey/add', function(req, res) {
 	console.log(req.body.id);
 
