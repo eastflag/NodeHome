@@ -5,6 +5,7 @@ var userSchema = new Schema({
 	_id : {type: String, required: true}, //e-mail이 primary키
 	name: String,
 	password: String,
+	locale: String,
 
 	facebook: {
 		id: String,

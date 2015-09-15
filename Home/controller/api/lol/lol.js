@@ -24,8 +24,8 @@ router.get('/kakao/oauth', function(req, res) {
 router.post('/user/add', function(req, res) {
 	console.log('/api/lol/user/add:' + req.body.id);
 	var user = {
-		email: req.body.email,
-		name: req.body.name
+		name: req.body.name,
+		locale: req.body.locale
 	};
 	
 	//insert or update
