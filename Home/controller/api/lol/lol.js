@@ -120,6 +120,20 @@ router.post('/travel/update', function(req, res) {
 			address: req.body.destination.address
 		}
 	}
+	
+	//출발지 입력 혹은 목적지 입력시에 위치 저장하기
+	if (req.body.origin || req.body.destination) {
+		var location = new Location({
+			travelId: req.body.id,
+			lat:  req.body.origin.lat,
+			lng: req.body.origin.lng,
+			address: req.body.origin.address
+		})
+
+		location.save(function(err) {
+			
+		});
+	}
 
 	//update
 	Travel.update({_id: req.body.id},

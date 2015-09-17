@@ -1,23 +1,17 @@
 var gulp   = require('gulp')
-var concatCss = require('gulp-concat-css');
+var concat = require('gulp-concat');
 var stylus = require('gulp-stylus')
 
-gulp.task('default', function () {
-  return gulp.src('css/app.css')
-    .pipe(concatCss())
-    .pipe(gulp.dest('assets'));
-});
+
 
 gulp.task('css', function () {
-    return gulp.src('css/app.styl')
+    return gulp.src(['css/style.css', 'css/app.styl'])
 	    .pipe(stylus())
+	    .pipe(concat('app.css'))
 	    .pipe(gulp.dest('assets'))
 })
 
-gulp.task('watch:default', ['default'], function () {
-  gulp.watch('css/**/*.css', ['default'])
-})
 
 gulp.task('watch:css', ['css'], function () {
-  gulp.watch('css/**/*.styl', ['css'])
+  gulp.watch('css/**.*', ['css'])
 })
