@@ -22,6 +22,9 @@
         <!-- MetisMenu CSS -->
         <link href="/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
+        <!-- Morris Chart-->
+        <link href="/morrisjs/morris.css" rel="stylesheet">
+
         <!-- Custom Fonts -->
         <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -50,7 +53,15 @@
                             <li style="line-height:50px;">
                             </li>
                             <li>
-                                <a href="#!/stat"><i class="fa fa-dashboard fa-fw"></i> 통계 관리</a>
+                                <a href="#"><i class="fa fa-dashboard fa-fw"></i> 통계 조사<span class="fa arrow"></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="admin#!/social">사회경제적특성</a>
+                                    </li>
+                                    <li>
+                                        <a href="#!/residence">거주만족도</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
                                 <a href="#!/location"><i class="fa fa-table fa-fw"></i> 위치 관리</a>
@@ -83,6 +94,18 @@
         <!-- Metis Menu Plugin JavaScript -->
         <script src="/metisMenu/dist/metisMenu.min.js"></script>
 
+        <!-- Morris Chart -->
+        <script src="/raphael/raphael-min.js"></script>
+        <script src="/morrisjs/morris.min.js"></script>
+
+        <!-- flot Chart -->
+        <script src="/flot/excanvas.min.js"></script>
+        <script src="/flot/jquery.flot.js"></script>
+        <script src="/flot/jquery.flot.pie.js"></script>
+        <script src="/flot/jquery.flot.resize.js"></script>
+        <script src="/flot/jquery.flot.time.js"></script>
+        <script src="/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+
         <!--Custom JavaScript -->
         <script src='/app.js'></script>
 
@@ -90,6 +113,7 @@
             $(function() {
                 $('#side-menu').metisMenu();
             });
+        </script>
         </script>
     
     </body>

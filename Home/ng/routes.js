@@ -1,8 +1,9 @@
 angular.module('app')
 .config( ['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 	$routeProvider
-	.when('/', {controller: 'UserCtrl', templateUrl: '/templates/user.html'})
-	.when('/user', {controller: 'UserCtrl', templateUrl: '/templates/user.html'})
+	.when('/', {templateUrl: 'templates/admin.html'})
+	.when('/social', {templateUrl: 'templates/social.html'})
 	
-	$locationProvider.html5Mode(true);
+	$locationProvider.html5Mode(false);
+	$locationProvider.hashPrefix('!');
 }]);
