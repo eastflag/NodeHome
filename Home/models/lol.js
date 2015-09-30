@@ -8,8 +8,8 @@ var surveySchema = new Schema({
 	},
 	socioeconomic: {
 		sex: Number,
-		age: String,
-		income: String,
+		age: Number,
+		income: Number,
 		address: String,
 		drive_license: Number
 	},
