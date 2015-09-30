@@ -1,0 +1,54 @@
+http://localhost:4000/api/lol/admin/getSocial/sex
+
+{
+    "result": 0,
+    "data": [{
+        "_id": {
+            "sex": 1
+        },
+        "count": 3
+    }, {
+        "_id": {
+            "sex": 2
+        },
+        "count": 4
+    }]
+}
+
+http://localhost:4000/api/lol/admin/getSocial/drive
+{
+    "result": 0,
+    "data": [{
+        "_id": {
+            "drive_license": 1
+        },
+        "count": 7
+    }]
+}
+
+http://localhost:4000/api/lol/admin/getSocial/age
+{
+    "result": 0,
+    "data": [{
+        "_id": "range 20-29",
+        "count": 4
+    }, {
+        "_id": "range 50-59",
+        "count": 1
+    }, {
+        "_id": "range 40-49",
+        "count": 2
+    }]
+}
+
+http://localhost:4000/api/lol/admin/getSocial/income
+{
+    "result": 0,
+    "data": [{
+        "_id": "range 0-20",
+        "count": 6
+    }, {
+        "_id": "range 100",
+        "count": 1
+    }]
+}
