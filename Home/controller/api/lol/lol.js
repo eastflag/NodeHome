@@ -234,4 +234,109 @@ router.post('/point/getRankingList', function(req, res){
   	);
 })
 
+//통계
+//사회경제적 조사 - 성별
+router.post('/admin/getSocial/sex', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{sex:"$socioeconomic.sex"}, count: { $sum: 1 }} },
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//사회경제적 조사 - 운전면허
+router.post('/admin/getSocial/drive', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{drive_license:"$socioeconomic.drive_license"}, count: { $sum: 1 }} },
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//사회경제적 조사 - 나이
+router.post('/admin/getSocial/age', function(req, res){
+	Survey.aggregate(
+		{ $project: {
+		    "_id": 0,
+		    "range": {
+		      $concat: [{
+		        $cond: [ { $lt: ["$socioeconomic.age", 20] }, "range 0-19", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.age", 20] }, 
+		          { $lt:  ["$socioeconomic.age", 30] } 
+		        ] }, "range 20-29", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.age", 30] }, 
+		          { $lt:  ["$socioeconomic.age", 40] } 
+		        ] }, "range 30-39", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.age", 40] }, 
+		          { $lt:  ["$socioeconomic.age", 50] } 
+		        ] }, "range 40-49", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.age", 50] }, 
+		          { $lt:  ["$socioeconomic.age", 60] } 
+		        ] }, "range 50-59", "" ]
+		      }, {
+		        $cond: [{ $gte: ["$socioeconomic.age", 60] }, "range 60-", "" ]
+		      }]
+		    }
+		}},
+		{ $group: { _id: "$range", count: { $sum: 1 } }},
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//사회경제적 조사 - 나이
+router.post('/admin/getSocial/income', function(req, res){
+	Survey.aggregate(
+		{ $project: {
+		    "_id": 0,
+		    "range": {
+		      $concat: [{
+		        $cond: [ { $lt: ["$socioeconomic.income", 20000000] }, "range 0-20", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.income", 20000000] }, 
+		          { $lt:  ["$socioeconomic.income", 40000000] } 
+		        ] }, "range 20-40", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.income", 40000000] }, 
+		          { $lt:  ["$socioeconomic.income", 60000000] } 
+		        ] }, "range 40-60", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.income", 60000000] }, 
+		          { $lt:  ["$socioeconomic.income", 80000000] } 
+		        ] }, "range 60-80", "" ]
+		      }, {
+		        $cond: [ { $and: [
+		          { $gte: ["$socioeconomic.income", 80000000] }, 
+		          { $lt:  ["$socioeconomic.income", 100000000] } 
+		        ] }, "range 80-100", "" ]
+		      }, {
+		        $cond: [{ $gte: ["$socioeconomic.income", 100000000] }, "range 100", "" ]
+		      }]
+		  	}
+		}},
+		{ $group: { _id: "$range", count: { $sum: 1 } }},
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
 module.exports = router;
