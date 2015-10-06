@@ -123,23 +123,23 @@ angular.module('app')
 		.success(function(datas) {
 			var income_data = datas.data;
 
-			var data = [{period: '~2천만',income: 0},
-				{period: '2천~4천만',income: 0},
-				{period: '4천-6천만',income: 0},
-				{period: '6천-8천만',income: 0},
-				{period: '8천-1억',income: 0},
-				{period: '1억이상',income: 0}];
+			var data = [{period: '~1백만',income: 0},
+				{period: '1백~2백만',income: 0},
+				{period: '2백-3백만',income: 0},
+				{period: '3백-5백만',income: 0},
+				{period: '5백-1천만',income: 0},
+				{period: '1천만이상',income: 0}];
 
 			for(var i=0; i < income_data.length; ++i) {
-				if(income_data[i]._id == "range 0-20") {
+				if(income_data[i]._id == "range 0-100") {
 					data[0].income = income_data[i].count;
-	            } else if (income_data[i]._id == "range 20-40") {
+	            } else if (income_data[i]._id == "range 100-200") {
 					data[1].income = income_data[i].count;
-	            } else if (income_data[i]._id == "range 40-60") {
+	            } else if (income_data[i]._id == "range 200-300") {
 					data[2].income = income_data[i].count;
-	            } else if (income_data[i]._id == "range 60-80") {
+	            } else if (income_data[i]._id == "range 300-500") {
 					data[3].income = income_data[i].count;
-	            } else if (income_data[i]._id == "range 80-100") {
+	            } else if (income_data[i]._id == "range 500-1000") {
 					data[4].income = income_data[i].count;
 	            } else {
 	            	data[5].income = income_data[i].count;

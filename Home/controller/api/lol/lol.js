@@ -298,40 +298,95 @@ router.post('/admin/getSocial/age', function(req, res){
 	);
 })
 
-//사회경제적 조사 - 나이
+//사회경제적 조사 - 수입
 router.post('/admin/getSocial/income', function(req, res){
 	Survey.aggregate(
 		{ $project: {
 		    "_id": 0,
 		    "range": {
 		      $concat: [{
-		        $cond: [ { $lt: ["$socioeconomic.income", 20000000] }, "range 0-20", "" ]
+		        $cond: [ { $lt: ["$socioeconomic.income", 1000000] }, "range 0-100", "" ]
 		      }, {
 		        $cond: [ { $and: [
-		          { $gte: ["$socioeconomic.income", 20000000] }, 
-		          { $lt:  ["$socioeconomic.income", 40000000] } 
-		        ] }, "range 20-40", "" ]
+		          { $gte: ["$socioeconomic.income", 1000000] }, 
+		          { $lt:  ["$socioeconomic.income", 2000000] } 
+		        ] }, "range 100-200", "" ]
 		      }, {
 		        $cond: [ { $and: [
-		          { $gte: ["$socioeconomic.income", 40000000] }, 
-		          { $lt:  ["$socioeconomic.income", 60000000] } 
-		        ] }, "range 40-60", "" ]
+		          { $gte: ["$socioeconomic.income", 2000000] }, 
+		          { $lt:  ["$socioeconomic.income", 3000000] } 
+		        ] }, "range 200-300", "" ]
 		      }, {
 		        $cond: [ { $and: [
-		          { $gte: ["$socioeconomic.income", 60000000] }, 
-		          { $lt:  ["$socioeconomic.income", 80000000] } 
-		        ] }, "range 60-80", "" ]
+		          { $gte: ["$socioeconomic.income", 3000000] }, 
+		          { $lt:  ["$socioeconomic.income", 5000000] } 
+		        ] }, "range 300-500", "" ]
 		      }, {
 		        $cond: [ { $and: [
-		          { $gte: ["$socioeconomic.income", 80000000] }, 
-		          { $lt:  ["$socioeconomic.income", 100000000] } 
-		        ] }, "range 80-100", "" ]
+		          { $gte: ["$socioeconomic.income", 5000000] }, 
+		          { $lt:  ["$socioeconomic.income", 10000000] } 
+		        ] }, "range 500-1000", "" ]
 		      }, {
-		        $cond: [{ $gte: ["$socioeconomic.income", 100000000] }, "range 100", "" ]
+		        $cond: [{ $gte: ["$socioeconomic.income", 10000000] }, "range 1000-", "" ]
 		      }]
 		  	}
 		}},
 		{ $group: { _id: "$range", count: { $sum: 1 } }},
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//거주만족도 조사 - 대중교통
+router.post('/admin/getResicence/traffic', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{value:"$residential.public_transport"}, count: { $sum: 1 }} },
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//거주만족도 조사 - 상업시설
+router.post('/admin/getResicence/commercial', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{value:"$residential.commercial_facility"}, count: { $sum: 1 }} },
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//거주만족도 조사 - 여가환경
+router.post('/admin/getResicence/leisure', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{value:"$residential.leisure_facility"}, count: { $sum: 1 }} },
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//거주만족도 조사 - 녹지
+router.post('/admin/getResicence/green', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{value:"$residential.green_space"}, count: { $sum: 1 }} },
+		function(err, data) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: data});
+		}
+	);
+})
+
+//거주만족도 조사 - 주거면적
+router.post('/admin/getResicence/area', function(req, res){
+	Survey.aggregate(
+		{ $group: {_id:{value:"$residential.floor_space"}, count: { $sum: 1 }} },
 		function(err, data) {
 			if (err) return res.json({result:100, msg:err});
 			res.json({result:0, data: data});
