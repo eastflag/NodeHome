@@ -292,18 +292,19 @@ router.post('/location/getlist', function(req, res){
 })
 
 router.post('/point/getMyPoint', function(req, res){
-	Travel.find(
-	    {userId:req.body.userId}
-	)
-	.count(function (err, count) {
-		if (err) return res.json({result:100, msg:err});
-		res.json({result:0, data: {count:count}});
-	});
+	Travel.aggregate(
+		{ $match: {userId:req.body.userId}},
+		{ $group: { _id: '$userId', count: { $sum: "$point"}}},
+		function (err, count) {
+			if (err) return res.json({result:100, msg:err});
+			res.json({result:0, data: {count:count}});
+		}
+	);
 })
 
 router.post('/point/getRankingList', function(req, res){
 	Travel.aggregate(
-  	    { $group: { _id: '$userId', count: { $sum: 1}}}, 
+  	    { $group: { _id: '$userId', count: { $sum: "$point"}}}, 
   	    { $sort: {"count": -1}},
   		function (err, data) {
   		   	if (err) return res.json({result:100, msg:err});
