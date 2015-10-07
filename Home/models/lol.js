@@ -1,5 +1,6 @@
 var db = require('../homeDB');
 var Schema = db.Schema;
+var autoIncrement = require('mongoose-auto-increment');
 
 var surveySchema = new Schema({
 	userId: {
@@ -32,6 +33,8 @@ var travelSchema = new Schema({
 		ref: 'user'
 	},
 	created: {type: Date, default: Date.now},
+	updated: {type: Date}, //last date, when destination is updated
+	distance: Number, //total distance
 	travelInfo: {
 		flight: Number, //1:yes, 2: no
 		mode: Number,
@@ -48,7 +51,10 @@ var travelSchema = new Schema({
 		address: String
 	}
 }, {collection: 'travel'});
-
+travelSchema.plugin(autoIncrement.plugin, {
+    model: 'travel',
+    startAt: 1
+});
 exports.Travel = db.model('travel', travelSchema);
 
 //new trip GPS
@@ -62,5 +68,8 @@ var locationSchema = new Schema({
 	lng: Number,
 	address: String
 }, {collection: 'location'});
-
+locationSchema.plugin(autoIncrement.plugin, {
+    model: 'location',
+    startAt: 1
+});
 exports.Location = db.model('location', locationSchema);

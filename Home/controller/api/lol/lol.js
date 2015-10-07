@@ -1,6 +1,7 @@
 var Lol =require('../../../models/lol');
 var Board =require('../../../models/boards');
 var router = require('express').Router();
+var geolib = require('geolib');
 
 //모델 정의
 var User = Board.User;
@@ -119,6 +120,8 @@ router.post('/travel/update', function(req, res) {
 			lng: req.body.destination.lng,
 			address: req.body.destination.address
 		}
+		//최종날짜
+		update.updated = new Date().toISOString();
 	}
 	
 	//출발지 입력 혹은 목적지 입력시에 위치 저장하기
@@ -133,6 +136,31 @@ router.post('/travel/update', function(req, res) {
 		location.save(function(err) {
 			
 		});
+	}
+
+	//목적지 입력시 총 거리를 구해서 비동기로 입력
+	if(req.body.destination) {
+		Location.find({travelId:req.body.travelId})
+		.sort({created:1})
+		.exec(function(err, locationList){
+			var totalDistance = 0;
+			if(locationList && locationList.length>1) {
+				for(var i=1; i<locationList.length; ++i) {
+					var distance = geolib.getDistance(
+					    {latitude: locationList[i-1].lat, longitude: locationList[i-1].lng},
+					    {latitude: locationList[i].lat, longitude: locationList[i].lng}
+					);
+					totalDistance += distance;
+				}
+			} 
+			//저장
+			Travel.update({_id: req.body.id},
+				{distance : totalDistance},
+				{upsert: false})
+			.exec(function(err, travel) {
+
+			});
+		})
 	}
 
 	//update
@@ -201,6 +229,7 @@ router.post('/location/getlist', function(req, res){
 	console.log(req.body.travelId);
 	
 	Location.find({travelId:req.body.travelId})
+	.sort({created:1})
 	.exec(function(err, locationList){
 		if(err) {return res.json({result:500, data: err})}
 		if(locationList) {
