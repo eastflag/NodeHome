@@ -65,7 +65,7 @@ exports.Travel = mongoose.model('travel', travelSchema);
 //new trip GPS
 var locationSchema = new Schema({
 	travelId: {
-		type: Schema.ObjectId,
+		type: Number,
 		ref: 'travel'
 	},
 	created: {type: Date, default: Date.now},
