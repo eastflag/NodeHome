@@ -180,6 +180,23 @@ router.post('/travel/update', function(req, res) {
 	});
 });
 
+router.post('/travel/last', function(req, res) {
+	console.log(req.body.userId);
+
+	Travel.find({userId: req.body.userId,
+		$and: [ { "updated": { $exists: false } } ] })
+	.sort({"created" : -1})
+	.limit(1)
+	.exec(function(err, travel) {
+		if(err) {return res.json({result:500, data: err})}
+		if(travel) {
+			res.json({result:0, data: travel});
+		} else {
+			res.json({result:100, msg:'data do not exist'});
+		}
+	});
+});
+
 router.post('/travel/get', function(req, res) {
 	console.log(req.body.travelId);
 
