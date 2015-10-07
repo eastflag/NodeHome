@@ -29,7 +29,7 @@ var surveySchema = new Schema({
 	created: {type: Date, default: Date.now}
 }, {collection: 'survey'})
 
-exports.Survey = db.model('survey', surveySchema);
+exports.Survey = mongoose.model('survey', surveySchema);
 
 //new trip
 var travelSchema = new Schema({
@@ -60,7 +60,7 @@ travelSchema.plugin(autoIncrement.plugin, {
     model: 'travel',
     startAt: 1
 });
-exports.Travel = db.model('travel', travelSchema);
+exports.Travel = mongoose.model('travel', travelSchema);
 
 //new trip GPS
 var locationSchema = new Schema({
@@ -77,4 +77,4 @@ locationSchema.plugin(autoIncrement.plugin, {
     model: 'location',
     startAt: 1
 });
-exports.Location = db.model('location', locationSchema);
+exports.Location = mongoose.model('location', locationSchema);
