@@ -40,6 +40,7 @@ var travelSchema = new Schema({
 	created: {type: Date, default: Date.now},
 	updated: {type: Date}, //last date, when destination is updated
 	distance: Number, //total distance
+	point: Number, //20km 차등된 점수
 	travelInfo: {
 		flight: Number, //1:yes, 2: no
 		mode: Number,

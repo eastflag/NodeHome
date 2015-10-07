@@ -152,6 +152,7 @@ router.post('/travel/update', function(req, res) {
 		.sort({created:1})
 		.exec(function(err, locationList){
 			var totalDistance = 0;
+			var point = 0;
 			if(locationList && locationList.length>1) {
 				for(var i=1; i<locationList.length; ++i) {
 					console.log('lat:' + locationList[i-1].lat);
@@ -161,10 +162,34 @@ router.post('/travel/update', function(req, res) {
 					);
 					totalDistance += distance;
 				}
+
+				//거리에 따른 점수 계산
+				if(totalDistance <= 20000) {
+					point = 1;
+				} else if(totalDistance > 20000 && totalDistance <= 40000) {
+					point = 2;
+				} else if(totalDistance > 40000 && totalDistance <= 60000) {
+					point = 3;
+				} else if(totalDistance > 60000 && totalDistance <= 80000) {
+					point = 4;
+				} else if(totalDistance > 80000 && totalDistance <=100000) {
+					point = 5;
+				} else if(totalDistance >100000 && totalDistance <=120000) {
+					point = 6;
+				} else if(totalDistance >120000 && totalDistance <=140000) {
+					point = 7;
+				} else if(totalDistance >140000 && totalDistance <=160000) {
+					point = 8;
+				} else if(totalDistance >160000 && totalDistance <=180000) {
+					point = 9;
+				} else {
+					point = 10;
+				}
 			} 
+
 			//저장
 			Travel.update({_id: req.body.id},
-				{distance : totalDistance},
+				{distance : totalDistance, point: point},
 				{upsert: false})
 			.exec(function(err, travel) {
 
