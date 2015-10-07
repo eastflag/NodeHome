@@ -97,7 +97,7 @@ router.post('/travel/add', function(req, res) {
 });
 
 router.post('/travel/update', function(req, res) {
-	console.log(req.body.id);
+	console.log('travelId' + req.body.id);
 
 	var update = {};
 	if(req.body.travelInfo) {
@@ -148,13 +148,14 @@ router.post('/travel/update', function(req, res) {
 
 	//목적지 입력시 총 거리를 구해서 비동기로 입력
 	if(req.body.destination) {
-		Location.find({travelId:req.body.travelId})
+		Location.find({travelId:req.body.id})
 		.sort({created:1})
 		.exec(function(err, locationList){
 			var totalDistance = 0;
 			if(locationList && locationList.length>1) {
 				for(var i=1; i<locationList.length; ++i) {
 					var distance = geolib.getDistance(
+						console.log('lat:' + locationList[i-1].lat);
 					    {latitude: locationList[i-1].lat, longitude: locationList[i-1].lng},
 					    {latitude: locationList[i].lat, longitude: locationList[i].lng}
 					);
