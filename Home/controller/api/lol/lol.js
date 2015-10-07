@@ -154,8 +154,8 @@ router.post('/travel/update', function(req, res) {
 			var totalDistance = 0;
 			if(locationList && locationList.length>1) {
 				for(var i=1; i<locationList.length; ++i) {
+					console.log('lat:' + locationList[i-1].lat);
 					var distance = geolib.getDistance(
-						console.log('lat:' + locationList[i-1].lat);
 					    {latitude: locationList[i-1].lat, longitude: locationList[i-1].lng},
 					    {latitude: locationList[i].lat, longitude: locationList[i].lng}
 					);
