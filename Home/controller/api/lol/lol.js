@@ -164,7 +164,9 @@ router.post('/travel/update', function(req, res) {
 				}
 
 				//거리에 따른 점수 계산
-				if(totalDistance <= 20000) {
+				if(totalDistance <= 1000) {
+					point = 0;
+				} else if(totalDistance >  1000 && totalDistance <= 20000) {
 					point = 1;
 				} else if(totalDistance > 20000 && totalDistance <= 40000) {
 					point = 2;
