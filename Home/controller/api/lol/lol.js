@@ -242,7 +242,7 @@ router.post('/travel/get', function(req, res) {
 router.post('/travel/getlist', function(req, res){
 	console.log(req.body.userId);
 	
-	Travel.find({userId:req.body.userId})
+	Travel.find({userId:req.body.userId, point:{$exists: true}})
 	.exec(function(err, travelList){
 		if(err) {return res.json({result:500, data: err})}
 		if(travelList) {
