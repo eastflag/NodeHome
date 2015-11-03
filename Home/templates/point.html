@@ -1,0 +1,78 @@
+<div ng-controller='PointCtrl'>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">포인트 & 통행 관리</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+        <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    포인트 관리
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>순위</td>
+                                <td>이름</td>
+                                <td>점수</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="point in pointList">
+                                <td>{{ $index +1 }}</td>
+                                <td>{{ point._id.name}}</td>
+                                <td>{{ point.count}}</td>
+                                <td>
+                                    <button class="btn btn-default btn-xs" ng-click="viewTravel(point._id._id)">
+                                      <span class="glyphicon glyphicon-pencil"></span> 통행 정보 보기
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    통행 관리
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>날짜</td>
+                                <td>출발</td>
+                                <td>도착</td>
+                                <td style="text-align:right">거리(m)</td>
+                                <td style="text-align:right">점수</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="travel in travelList">
+                                <td>{{ travel.created | date: 'yyyy-MM-dd H:mm'}}</td>
+                                <td>{{ travel.origin.address}}</td>
+                                <td>{{ travel.destination.address}}</td>
+                                <td style="text-align:right">{{ travel.distance | number:0}}</td>
+                                <td style="text-align:right">{{ travel.point}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+</div>
