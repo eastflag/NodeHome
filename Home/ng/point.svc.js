@@ -7,4 +7,8 @@ angular.module('app')
 	this.getTravelList = function(user) {
 		return $http.post('/api/lol/travel/getlist', user);
 	}
+
+	this.getLocationList = function(travel) {
+		return $http.post('/api/lol/location/getlist', travel);
+	}
 });
