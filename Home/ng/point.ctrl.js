@@ -40,12 +40,14 @@ angular.module('app')
 		    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 			var origin_marker=new google.maps.Marker({
-				position:origin
+				position:origin,
+				label:'출발'
 			});
 
 			var destination_marker=new google.maps.Marker({
 				position:destination,
-				animation:google.maps.Animation.BOUNCE
+				animation:google.maps.Animation.BOUNCE,
+				label:'도착'
 			});
 
 			origin_marker.setMap($scope.map);
@@ -66,6 +68,15 @@ angular.module('app')
 			});
 
 			pathLine.setMap($scope.map);
+
+			//label 붙이기
+			for(var i=1; i< locationList.length -1; ++i) {
+				var marker = new google.maps.Marker({
+				    position: locationList[i],
+				    label: "" + i,
+				    map: $scope.map
+				});
+			}
 
 		})
 	}

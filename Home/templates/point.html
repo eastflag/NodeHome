@@ -7,7 +7,7 @@
     </div>
         <!-- /.row -->
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     포인트 관리
@@ -42,7 +42,7 @@
             <!-- /.panel -->
         </div>
         <!-- /.col-lg-6 -->
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     통행 관리
@@ -56,6 +56,9 @@
                                 <td>날짜</td>
                                 <td>출발</td>
                                 <td>도착</td>
+                                <td><i a href="#" data-toggle="tooltip" data-placement="top" class="travel1 fa fa-question-circle"></i>통행1</td>
+                                <td><i a href="#" data-toggle="tooltip" data-placement="top" class="travel2 fa fa-question-circle"></i>통행2</td>
+                                <td><i a href="#" data-toggle="tooltip" data-placement="top" class="travel3 fa fa-question-circle"></i>통행3</td>
                                 <td style="text-align:right">거리(m)</td>
                                 <td style="text-align:right">점수</td>
                             </tr>
@@ -70,6 +73,9 @@
                                 <td>{{ travel.created | date: 'yyyy-MM-dd H:mm'}}</td>
                                 <td>{{ travel.origin.address}}</td>
                                 <td>{{ travel.destination.address}}</td>
+                                <td style="text-align:center">{{ travel.travelInfo.flight}}</td>
+                                <td style="text-align:center">{{ travel.travelInfo.mode}}</td>
+                                <td style="text-align:center">{{ travel.travelInfo.purpose}}</td>
                                 <td style="text-align:right">{{ travel.distance | number:0}}</td>
                                 <td style="text-align:right">{{ travel.point}}</td>
                             </tr>
@@ -95,3 +101,19 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.travel1').tooltip({
+            html:true,
+            title: "<div style='text-align:left'><p class='tooltipTitle'>항공편을 이용하였습니까?</p>1. 예<br>2.아니오</div>" 
+        });   
+        $('.travel2').tooltip({
+            html:true,
+            title: "<div style='text-align:left'><p class='tooltipTitle'>항공편 이용 유무</p>1. 도보 또는 자전거<br>2.자동차<br>3. 대중교통<br>4. 택시<br>5. 기타</div>" 
+        }); 
+        $('.travel3').tooltip({
+            html:true,
+            title: "<div style='text-align:left'><p class='tooltipTitle'>항공편 이용 유무</p>1. 쇼핑<br>2영화나 공연<br>3. 행락<br>4. 취미나 스포츠 활동<br>5. 자연, 에코투어<br>6.휴양 및 휴식<br>7. 오락 및 여흥, 모임<br>8.기타</div>" 
+        }); 
+    });
+</script>
