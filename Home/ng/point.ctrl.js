@@ -73,8 +73,10 @@ angular.module('app')
 			for(var i=1; i< locationList.length -1; ++i) {
 				var marker = new google.maps.Marker({
 				    position: locationList[i],
-				    label: "" + i,
-				    map: $scope.map
+				    map: $scope.map,
+				    labelContent: "" + i,
+				    labelClass: "labels", // the CSS class for the label
+				    icon: {}
 				});
 			}
 
